@@ -6,11 +6,23 @@ phases:
       python: 3.x
   pre_build:
     commands:
-      - echo "Pre build stage..."
+      - pip install --upgrade awscli
+      - aws --version
+      - pip install virtualenv
+      - virtualenv /tmp/venv
+      - . /tmp/venv/bin/activate
+      - pip install -r requirements.txt
+      - pip install chalice
+      - export PYTHONPATH=.
+      - chalice package /tmp/packaged
   build:
     commands:
-      - echo "Build stage..."
+      - echo  "Build stage..."
+      - aws cloudformation package --template-file /tmp/packaged/sam.json --s3-bucket "${APP_S3_BUCKET}" --output-template-file transformed.yaml
   post_build:
     commands:
       - echo "Post build stage..."
       - echo Build completed on `date`
+type: zip
+  files:
+    - transformed.yaml
