@@ -14,11 +14,11 @@ phases:
       - pip install -r requirements.txt
       - pip install chalice
       - export PYTHONPATH=.
-      - chalice package /tmp/packaged
+      - chalice package packaged
   build:
     commands:
       - echo  "Build stage..."
-      - aws cloudformation package --template-file /tmp/packaged/sam.json --output-template-file transformed.yaml
+      - aws cloudformation package --template-file packaged/sam.json --output-template-file transformed.yaml
   post_build:
     commands:
       - echo "Post build stage..."
