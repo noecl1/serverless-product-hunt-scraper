@@ -23,6 +23,3 @@ phases:
     commands:
       - echo "Post build stage..."
       - echo Build completed on `date`
-type: zip
-  files:
-    - transformed.yaml
